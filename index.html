@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08111f" />
+    <title>Hand Cricket</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">
+            <img src="cricketlogo1.jpg" alt="Cricket Championship logo" />
+          </div>
+          <div class="brand-copy">
+            <strong>Hand Cricket</strong>
+            <small>read the rhythm</small>
+          </div>
+        </div>
+        <button class="ghost stats-trigger" id="statsBtn">
+          <span class="stats-icon" aria-hidden="true">↗</span>
+          <span>Career stats</span>
+        </button>
+      </header>
+      <main>
+        <section id="setupScreen" class="screen">
+          <div class="hero">
+            <div class="eyebrow">A pocket-sized duel</div>
+            <h1>
+              Pick a number.<br /><span style="color: var(--cyan)"
+                >Make it count.</span
+              >
+            </h1>
+            <p>
+              Classic hand cricket with sharp decisions, fast innings, and a
+              little bit of nerve.
+            </p>
+          </div>
+          <div class="setup-grid">
+            <div class="panel">
+              <h2>Set up your match</h2>
+              <div class="section-label">Players</div>
+              <div class="option-row mode-row" id="modeOptions">
+                <button class="option selected" data-mode="cpu">
+                  <b>1 Player</b><span>vs computer</span></button
+                ><button class="option" data-mode="local">
+                  <b>2 Players</b><span>pass &amp; play</span>
+                </button>
+              </div>
+              <div class="names-panel">
+                <div class="section-label">Player names</div>
+                <div class="name-fields">
+                  <label class="name-field">
+                    <span>Your name</span>
+                    <input
+                      id="playerOneName"
+                      type="text"
+                      maxlength="18"
+                      placeholder="Player 1"
+                    />
+                  </label>
+                  <label class="name-field" id="playerTwoNameField" hidden>
+                    <span>Player 2 name</span>
+                    <input
+                      id="playerTwoName"
+                      type="text"
+                      maxlength="18"
+                      placeholder="Player 2"
+                    />
+                  </label>
+                </div>
+              </div>
+              <div id="difficultyBox">
+                <div class="section-label">CPU difficulty</div>
+                <div class="difficulty" id="difficultyOptions">
+                  <button class="option selected" data-difficulty="easy">
+                    <b>Easy</b></button
+                  ><button class="option" data-difficulty="medium">
+                    <b>Medium</b></button
+                  ><button class="option" data-difficulty="hard">
+                    <b>Hard</b>
+                  </button>
+                </div>
+              </div>
+              <div class="section-label">Wickets</div>
+              <div class="option-row" id="wicketOptions">
+                <button class="option" data-wickets="1">
+                  <b>1</b><span>quick</span></button
+                ><button class="option selected" data-wickets="3">
+                  <b>3</b><span>standard</span></button
+                ><button class="option" data-wickets="5">
+                  <b>5</b><span>deep</span></button
+                ><button class="option" data-wickets="10">
+                  <b>10</b><span>full XI</span>
+                </button>
+              </div>
+              <div class="section-label">Overs</div>
+              <div class="option-row" id="overOptions">
+                <button class="option selected" data-overs="0">
+                  <b>&infin;</b><span>Wickets only</span></button
+                ><button class="option" data-overs="1">
+                  <b>1</b><span>over</span></button
+                ><button class="option" data-overs="2">
+                  <b>2</b><span>overs</span></button
+                ><button class="option" data-overs="5">
+                  <b>5</b><span>overs</span>
+                </button>
+              </div>
+              <button class="primary" id="startBtn">
+                Start match <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+            <div class="panel">
+              <div class="eyebrow">How it works</div>
+              <h2 style="margin-top: 9px">
+                Simple rules.<br />Interesting choices.
+              </h2>
+              <p class="muted" style="line-height: 1.7">
+                Choose 1&ndash;6 at the same time. Different numbers score the
+                batter's choice. Matching numbers means wicket.
+              </p>
+              <div class="stat-card">
+                <span>Boundaries</span><strong>4 / 6</strong>
+              </div>
+              <div class="stat-card">
+                <span>Match type</span><strong id="modeSummary">vs CPU</strong>
+              </div>
+              <div class="stat-card">
+                <span>Overs</span><strong id="oversSummary">Unlimited</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="tossScreen" class="screen" hidden>
+          <div class="toss-wrap">
+            <div class="eyebrow" style="text-align: center">Match day</div>
+            <h1>Call the toss</h1>
+            <div class="panel">
+              <div class="coin-stage">
+                <div class="coin" id="coin" aria-label="Coin ready to flip">
+                  <span class="coin-face">HC</span>
+                </div>
+                <p id="tossMessage" class="muted">Heads or tails?</p>
+              </div>
+              <div class="choice-row" id="coinChoices">
+                <button class="choice" data-call="Heads">Heads</button
+                ><button class="choice" data-call="Tails">Tails</button>
+              </div>
+              <button class="primary" id="flipBtn" disabled>Flip coin</button>
+              <div id="tossDecision" hidden>
+                <p
+                  class="muted"
+                  style="text-align: center"
+                  id="decisionText"
+                ></p>
+                <div class="choice-row">
+                  <button class="choice" data-decision="bat">Bat first</button
+                  ><button class="choice" data-decision="bowl">
+                    Bowl first
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="gameScreen" class="screen" hidden>
+          <div class="game-head">
+            <div>
+              <div class="eyebrow" id="inningsLabel">First innings</div>
+              <h1 id="gameTitle">Your innings</h1>
+            </div>
+            <div class="game-actions">
+              <div class="live-pill">
+                <span aria-hidden="true">&bull;</span> LIVE
+              </div>
+              <button class="quit-button" id="quitBtn" type="button">
+                Quit match
+              </button>
+            </div>
+          </div>
+          <div class="scoreboard">
+            <div class="team active" id="teamA">
+              <div class="team-name" id="teamAName">Player 1</div>
+              <div class="score">
+                <span id="teamAScore">0</span
+                ><small> / <span id="teamAWickets">0</span></small>
+              </div>
+            </div>
+            <div class="versus">
+              VS<br /><span id="gameOvers">&infin;</span>
+            </div>
+            <div class="team" id="teamB">
+              <div class="team-name" id="teamBName">CPU</div>
+              <div class="score">
+                <span id="teamBScore">0</span
+                ><small> / <span id="teamBWickets">0</span></small>
+              </div>
+            </div>
+          </div>
+          <div class="target" id="targetLine">First innings - set a total</div>
+          <div class="innings-ribbon" aria-live="polite">
+            <div>
+              <span class="ribbon-kicker">Match phase</span>
+              <strong id="ribbonInnings">First innings</strong>
+            </div>
+            <div class="ribbon-divider" aria-hidden="true"></div>
+            <div class="ribbon-detail">
+              <span class="ribbon-kicker">At the crease</span>
+              <strong id="ribbonBatting">Player 1 batting</strong>
+            </div>
+            <div class="ribbon-state" id="ribbonState">Set your total</div>
+          </div>
+          <div class="game-layout">
+            <div class="panel">
+              <p class="turn" id="turnPrompt">Choose your number</p>
+              <div id="keypad" class="keypad"></div>
+              <div id="maskPanel" class="mask" hidden>
+                <div class="eyebrow">Hidden move</div>
+                <h3>Pass device to Player 2</h3>
+                <p>Your choice is safely masked.</p>
+                <button class="primary" id="passBtn" style="margin-top: 10px">
+                  Reveal Player 2's turn
+                </button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="over-title">
+                <span>Current over</span><span id="ballCount">0.0</span>
+              </div>
+              <div class="chips" id="chips"></div>
+              <div class="recent">
+                <div class="over-title">
+                  <span>Commentary</span
+                  ><span id="inningsBallText">Ball 0</span>
+                </div>
+                <div class="feed" id="feed"></div>
+              </div>
+            </div>
+          </div>
+          <div
+            id="deliveryOverlay"
+            class="delivery-overlay"
+            hidden
+            aria-live="assertive"
+          >
+            <div id="deliveryCard" class="delivery-card">
+              <div class="delivery-label">Ball in play</div>
+              <div class="score-punch" aria-hidden="true">
+                <span class="score-punch-value">4</span>
+                <span class="score-punch-runs">RUNS</span>
+              </div>
+              <div class="wicket-scene" aria-hidden="true">
+                <div class="scene-chair">CHAIR</div>
+                <div class="scene-ball"></div>
+                <div class="scene-wickets"><i></i><i></i><i></i><b></b></div>
+              </div>
+              <div id="deliveryNumber" class="delivery-number">6</div>
+            </div>
+          </div>
+        </section>
+        <section id="resultScreen" class="screen" hidden>
+          <div class="result-wrap">
+            <div class="result-hero">
+              <div class="eyebrow">Full time</div>
+              <h1 id="resultTitle">You win!</h1>
+              <div class="winner" id="resultSub">A composed chase.</div>
+            </div>
+            <div class="result-grid">
+              <div class="panel">
+                <div class="card-title">
+                  <h3>Scorecard</h3>
+                  <span class="muted" id="resultOvers"></span>
+                </div>
+                <div class="breakdown">
+                  <div class="breakdown-row">
+                    <span id="resultTeamAName">Player 1</span
+                    ><strong id="resultScoreA">0 / 0</strong>
+                  </div>
+                  <div class="breakdown-row">
+                    <span id="resultTeamBName">CPU</span
+                    ><strong id="resultScoreB">0 / 0</strong>
+                  </div>
+                  <div class="breakdown-row">
+                    <span>Result</span><strong id="resultMargin">-</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="card-title">
+                  <h3>Your career</h3>
+                  <span class="eyebrow">saved locally</span>
+                </div>
+                <div class="stat-card">
+                  <span>Matches played</span
+                  ><strong id="resultMatches">0</strong>
+                </div>
+                <div class="stat-card">
+                  <span>Wins / losses</span
+                  ><strong
+                    ><span id="resultWins">0</span> /
+                    <span id="resultLosses">0</span></strong
+                  >
+                </div>
+                <div class="stat-card">
+                  <span>Best score</span><strong id="resultBest">0</strong>
+                </div>
+                <div class="stat-card">
+                  <span>Boundaries</span
+                  ><strong id="resultBoundaries">0</strong>
+                </div>
+              </div>
+            </div>
+            <button class="primary" id="replayBtn">
+              Play again <span aria-hidden="true">&#8635;</span>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="drawer" id="statsDrawer" hidden>
+      <div class="modal">
+        <div class="modal-head">
+          <h2 style="margin: 0">Career stats</h2>
+          <button class="x" id="closeStats" aria-label="Close career stats">
+            &times;
+          </button>
+        </div>
+        <p class="muted">Your record on this device.</p>
+        <div id="statsContent"></div>
+        <button class="danger" id="resetStats">Reset career stats</button>
+      </div>
+    </div>
+    <script src="script.js" defer></script>
+  </body>
+</html>
