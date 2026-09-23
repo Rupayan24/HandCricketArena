@@ -379,7 +379,7 @@ async function playBall(batterMove, bowlerMove, batter) {
       game.waitingPass = false;
       renderGame();
     } else
-      finish(bat.score === game.target - 1 ? "tie" : game.batTeam, "defense");
+      finish(bat.score === game.target - 1 ? "tie" : game.bowlTeam, "defense");
   }
   game.animating = false;
 }
